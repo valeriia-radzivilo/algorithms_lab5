@@ -61,7 +61,7 @@ public class Graph {
         Random random = new Random();
         for (int i =0; i<V;i++)
         {
-            int power = random.nextInt(2,V/2);
+            int power = random.nextInt(0,V-1);
             if (power>max_am_colors)
                 max_am_colors=power+1;
             for(int j =0; j< power && get_adj(i).size()<=power;j++)
@@ -83,17 +83,16 @@ public class Graph {
     }
 
 
-    public static Graph ready_graph(int[][]distances)
+    public void ready_graph(int[][]distances)
     {
-        Graph gr = new Graph(distances.length);
-
 
         for(int i = 0; i< distances.length;i++)
         {
-            gr.setAdj(i,int_arr_to_list(distances[i]));
+            setAdj(i,int_arr_to_list(distances[i]));
+            if(int_arr_to_list(distances[i]).size()>max_am_colors)
+                max_am_colors = int_arr_to_list(distances[i]).size();
         }
 
-        return gr;
 
     }
 
