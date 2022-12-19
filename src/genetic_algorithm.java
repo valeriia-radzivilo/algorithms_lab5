@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.Random;
 
 public class genetic_algorithm {
-    public static void genetic(Graph graph, int V) {
+    public static int genetic(Graph graph, int V, int crossing_option) {
 
         // Upper Bound for Coloring
         int max_num_colors = graph.getMax_am_colors();
         int number_of_colors = max_num_colors;
         boolean condition = true;
-        int iter = 10000;
+        int iter = 1000;
         while (condition && number_of_colors > 0) {
             int population_size = iter/5;
             int generation = 0;
@@ -29,7 +29,13 @@ public class genetic_algorithm {
                 ArrayList<ArrayList<Integer>> new_population = new ArrayList<>();
                 Collections.shuffle(population);
                 for (int i = 0; i < population_size - 1; i += 2) {
-                    ArrayList<ArrayList<Integer>> children = crossover(population.get(i), population.get(i + 1), V);
+                    ArrayList<ArrayList<Integer>> children = new ArrayList<>();
+                    if(crossing_option == 1)
+                            children = new ArrayList<>(crossover(population.get(i), population.get(i + 1), V));
+                    else if(crossing_option == 2)
+                            children = new ArrayList<>(crossover_two_point(population.get(i), population.get(i + 1), V));
+                    else
+                        children = new ArrayList<>(crossover_six_point(population.get(i), population.get(i + 1), V));
                     ArrayList<Integer> child1 = children.get(0);
                     ArrayList<Integer> child2 = children.get(1);
                     new_population.add(child1);
@@ -51,7 +57,7 @@ public class genetic_algorithm {
                     }
                 }
                 if (gen % 10 == 0)
-                    System.out.println("Generation: " + gen + " Best_Fitness: " + best_fitness + "Individual: " + fittest_individual.toString() + "\n Col: " + number_of_colors);
+                    System.out.println("Generation: " + gen + " Best_Fitness: " + best_fitness + " Individual: " + fittest_individual.toString() + "\n Col: " + number_of_colors);
             }
             System.out.println("Using: " + number_of_colors + " colors \n\n");
             if (best_fitness != 0) {
@@ -62,6 +68,7 @@ public class genetic_algorithm {
                 number_of_colors -= 1;
 
         }
+        return number_of_colors;
     }
 
 
@@ -77,26 +84,69 @@ public class genetic_algorithm {
         return individual;
     }
 
+
+
     static ArrayList<ArrayList<Integer>> crossover(ArrayList<Integer> parent1, ArrayList<Integer>parent2, int V)
     {
         Random random = new Random();
         int position = random.nextInt(2, V-2);
         ArrayList<Integer> child1 = new ArrayList<>();
         ArrayList<Integer> child2 = new ArrayList<>();
-        for(int i=0;i<position+1;i++)
-        {
-            child1.add(parent1.get(i));
-            child2.add(parent2.get(i));
-        }
-        for(int i=position+1;i<V;i++)
-        {
-            child1.add(parent2.get(i));
-            child2.add(parent1.get(i));
-        }
+        crossing_process(parent1,parent2,-1,position, child1,child2);
+        crossing_process(parent2,parent1,position,V-1, child1,child2);
         ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
         answer.add(child1);
         answer.add(child2);
         return answer;
+
+    }
+
+    static ArrayList<ArrayList<Integer>> crossover_two_point(ArrayList<Integer> parent1, ArrayList<Integer>parent2, int V)
+    {
+        Random random = new Random();
+
+        int position = random.nextInt(0, V-2);
+        int position_two = random.nextInt(position, V-2);
+        ArrayList<Integer> child1 = new ArrayList<>();
+        ArrayList<Integer> child2 = new ArrayList<>();
+        crossing_process(parent1,parent2,-1,position, child1,child2);
+        crossing_process(parent1,parent2,position,position_two, child1,child2);
+        crossing_process(parent2,parent1,position_two,V-1, child1,child2);
+        ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
+        answer.add(child1);
+        answer.add(child2);
+        return answer;
+    }
+
+    static ArrayList<ArrayList<Integer>> crossover_six_point(ArrayList<Integer> parent1, ArrayList<Integer>parent2, int V)
+    {
+        Random random = new Random();
+        int position = random.nextInt(0, V-8);
+        int position_two = random.nextInt(position, V-7);
+        int position_three = random.nextInt(position_two, V-5);
+        int position_four = random.nextInt(position_three, V-3);
+        int position_five = random.nextInt(position_four, V-1);
+        ArrayList<Integer> child1 = new ArrayList<>();
+        ArrayList<Integer> child2 = new ArrayList<>();
+        crossing_process(parent1,parent2, -1,position,child1,child2);
+        crossing_process(parent2,parent1, position,position_two,child1,child2);
+        crossing_process(parent1, parent2,  position_two, position_three, child1, child2);
+        crossing_process(parent2, parent1,  position_three, position_four, child1, child2);
+        crossing_process(parent1, parent2,  position_four, position_five, child1, child2);
+        crossing_process(parent2, parent1,  position_five, V-1, child1, child2);
+
+        ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
+        answer.add(child1);
+        answer.add(child2);
+        return answer;
+    }
+
+    public static void crossing_process(ArrayList<Integer> parent1, ArrayList<Integer> parent2, int position_four, int position_five, ArrayList<Integer> child1, ArrayList<Integer> child2) {
+        for (int i= position_four+1; i<position_five +1;i++)
+        {
+            child1.add(parent1.get(i));
+            child2.add(parent2.get(i));
+        }
 
     }
 

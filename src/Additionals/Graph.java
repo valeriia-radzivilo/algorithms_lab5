@@ -61,7 +61,7 @@ public class Graph {
         Random random = new Random();
         for (int i =0; i<V;i++)
         {
-            int power = random.nextInt(0,V-1);
+            int power = random.nextInt(2,25); // степінь вершини
             if (power>max_am_colors)
                 max_am_colors=power+1;
             for(int j =0; j< power && get_adj(i).size()<=power;j++)
@@ -72,15 +72,12 @@ public class Graph {
                 //проблема на майб - може бути, що кількість зв'язків в процесі сворення на вершині буде більше 30
                 addEdge(i,con);
             }
+
         }
 
 
     }
 
-    public int travelling_distance(Graph graph, int place_one , int place_two)
-    {
-        return graph.get_adj(place_one).get(place_two);
-    }
 
 
     public void ready_graph(int[][]distances)
