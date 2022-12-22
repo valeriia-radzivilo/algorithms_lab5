@@ -1,12 +1,14 @@
 package Additionals;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Graph {
     private int V;
     private ArrayList<Integer> adj[]; //Adjacency Lists
     int max_am_colors = 0;
+    int min_am_col = V;
 
     public int getMax_am_colors()
     {
@@ -49,8 +51,10 @@ public class Graph {
 
     // Function to add an edge into the graph
     void addEdge(int v, int w) {
-        adj[v].add(w);
-        adj[w].add(v);
+        if(v!=w) {
+            adj[v].add(w);
+            adj[w].add(v);
+        }
     }
     void changeEdge(int v, int index, int new_value) {
         adj[v].set(index,new_value);
@@ -59,23 +63,31 @@ public class Graph {
     public void make_graph()
     {
         Random random = new Random();
-        for (int i =0; i<V;i++)
+        ArrayList<Integer> list_of_top = new ArrayList<>();
+        for(int i =0;i<V;i++)
+            list_of_top.add(i);
+        for(int i=0;i<V-10;i++)
         {
-            int power = random.nextInt(2,25); // степінь вершини
+            if(list_of_top.size()>5) list_of_top.remove(list_of_top.indexOf(i));
+            int power = random.nextInt(2,10); // степінь вершини
             if (power>max_am_colors)
                 max_am_colors=power+1;
+            if(power<min_am_col)
+                min_am_col = power;
             for(int j =0; j< power && get_adj(i).size()<=power;j++)
             {
-                int con = random.nextInt(V);
-                while(con==i || get_adj(i).contains(con))
-                    con = random.nextInt(V);
-                //проблема на майб - може бути, що кількість зв'язків в процесі сворення на вершині буде більше 30
-                addEdge(i,con);
+                int con = random.nextInt(list_of_top.size()-1);
+                if(!get_adj(i).contains(list_of_top.get(con))&&i!=list_of_top.get(con)) addEdge(i,list_of_top.get(con));
             }
+
 
         }
 
 
+    }
+    public int getMin_am_col()
+    {
+        return min_am_col;
     }
 
 
@@ -133,6 +145,7 @@ public class Graph {
         return fitness;
     }
 
+    // пропорційна селекція
     public ArrayList<ArrayList<Integer>> roulette_wheel_selection(ArrayList<ArrayList<Integer>>population)
     {
         Random random = new Random();
