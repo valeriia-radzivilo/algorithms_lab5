@@ -16,8 +16,9 @@ public class genetic_algorithm {
         int max_num_colors = graph.getMax_am_colors();
         int number_of_colors = max_num_colors;
         boolean condition = true;
-        int iter = 1000;
-        while (condition && number_of_colors > 0) {
+        int iter = 300;
+        ArrayList<Integer>found_solutions = new ArrayList<>();
+        while (condition && number_of_colors > 0 && number_of_colors>=graph.getMin_am_col()) {
             iter_all++;
             int population_size = iter / 5;
             int generation = 0;
@@ -75,10 +76,9 @@ public class genetic_algorithm {
                     System.out.println("Generation: " + gen + " Best_Fitness: " + best_fitness + " Individual: " + fittest_individual.toString() + "\n Col: " + number_of_colors);
             }
             System.out.println("Using: " + number_of_colors + " colors \n\n");
-            if (best_fitness!=0) {
-                condition= false;
-                    number_of_colors =max_num_colors+1;
-                    System.out.println("Graph is " + number_of_colors + " colorable");
+            if (best_fitness==0) {
+                found_solutions.add(number_of_colors);
+                number_of_colors-=1;
 
             } else
                 number_of_colors -= 1;
@@ -87,7 +87,15 @@ public class genetic_algorithm {
         System.out.println("Iterations: "+iter_all);
         ArrayList<Integer>answer = new ArrayList<>();
         answer.add(iter_all);
-        answer.add(number_of_colors);
+        if(found_solutions.size()>0) {
+            answer.add(Collections.min(found_solutions));
+            System.out.println("Graph is " + Collections.min(found_solutions) + " colorable");
+        }
+        else
+        {
+            System.out.println("Answer is not found");
+            answer.add(max_num_colors+1);
+        }
         return answer;
     }
 

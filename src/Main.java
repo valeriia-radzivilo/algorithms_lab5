@@ -19,7 +19,7 @@ public class Main {
         int mut =0;
         int local_imp =0;
         int max_colors = graph.greedyColoring()+1;
-        graph.setMax_am_colors(max_colors);
+        graph.setMin_am_col(max_colors);
         for(int i =0; i<3;i++)
         {
             for(int j =0; j<2;j++)

@@ -250,7 +250,7 @@ public class Graph {
         for(int j =0; j<2;j++)
         {
             Collections.shuffle(population);
-            for (int i =0; i<population.size()-2;i+=2)
+            for (int i =0; i<population.size()-1;i+=2)
             {
                 if(count_fitness(population.get(i))<count_fitness(population.get(i+1)))
                     new_population.add(population.get(i));
@@ -261,8 +261,10 @@ public class Graph {
             }
         return new_population;
     }
-
-
+        public void setMin_am_col(int min)
+        {
+            min_am_col = min;
+        }
 
 
 }
