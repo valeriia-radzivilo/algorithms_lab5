@@ -18,6 +18,8 @@ public class Main {
         int cross = 0;
         int mut =0;
         int local_imp =0;
+        int max_colors = graph.greedyColoring()+1;
+        graph.setMax_am_colors(max_colors);
         for(int i =0; i<3;i++)
         {
             for(int j =0; j<2;j++)
@@ -36,6 +38,7 @@ public class Main {
                 }
             }
         }
+
 
         System.out.println("BEST OPTIONS ");
         System.out.println("Crossing "+ cross);

@@ -1,8 +1,6 @@
 package Additionals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class Graph {
     private int V;
@@ -69,7 +67,7 @@ public class Graph {
         for(int i=0;i<V-10;i++)
         {
             if(list_of_top.size()>5) list_of_top.remove(list_of_top.indexOf(i));
-            int power = random.nextInt(2,10); // степінь вершини
+            int power = random.nextInt(2,30); // степінь вершини
             if (power>max_am_colors)
                 max_am_colors=power+1;
             if(power<min_am_col)
@@ -146,37 +144,128 @@ public class Graph {
     }
 
     // пропорційна селекція
-    public ArrayList<ArrayList<Integer>> roulette_wheel_selection(ArrayList<ArrayList<Integer>>population)
+//    public ArrayList<ArrayList<Integer>> roulette_wheel_selection(ArrayList<ArrayList<Integer>>population)
+//    {
+//        Random random = new Random();
+//        int total_fitness =0;
+//        for(ArrayList<Integer> ind : population)
+//        {
+//            total_fitness+=1/(1+count_fitness(ind));
+//        }
+//        ArrayList<Double> cumulative_fitness = new ArrayList<>();
+//        double cumulative_fitness_sum = 0;
+//        for(int i =0; i<population.size();i++)
+//        {
+//            cumulative_fitness_sum+=1./(1+count_fitness(population.get(i)))/total_fitness;
+//            cumulative_fitness.add(cumulative_fitness_sum);
+//        }
+//        ArrayList<ArrayList<Integer>> new_population = new ArrayList<>();
+//        for(int i=0; i<population.size();i++)
+//        {
+//            double roulette = random.nextDouble(0,1);
+//            for(int j =0; j<population.size();j++)
+//            {
+//                if(roulette<=cumulative_fitness.get(j))
+//                {
+//                    new_population.add(population.get(j));
+//                    break;
+//                }
+//            }
+//
+//        }
+//        return new_population;
+//    }
+
+    public void setMax_am_colors(int max_am_colors_)
     {
-        Random random = new Random();
-        int total_fitness =0;
-        for(ArrayList<Integer> ind : population)
+        max_am_colors = max_am_colors_;
+    }
+
+    // Assigns colors (starting from 0) to all vertices and
+    // prints the assignment of colors
+    public int greedyColoring()
+    {
+        int result[] = new int[V];
+
+        // Initialize all vertices as unassigned
+        Arrays.fill(result, -1);
+
+        // Assign the first color to first vertex
+        result[0]  = 0;
+
+        // A temporary array to store the available colors. False
+        // value of available[cr] would mean that the color cr is
+        // assigned to one of its adjacent vertices
+        boolean available[] = new boolean[V];
+
+        // Initially, all colors are available
+        Arrays.fill(available, true);
+
+        // Assign colors to remaining V-1 vertices
+        for (int u = 1; u < V; u++)
         {
-            total_fitness+=1/(1+count_fitness(ind));
-        }
-        ArrayList<Double> cumulative_fitness = new ArrayList<>();
-        double cumulative_fitness_sum = 0;
-        for(int i =0; i<population.size();i++)
-        {
-            cumulative_fitness_sum+=1./(1+count_fitness(population.get(i)))/total_fitness;
-            cumulative_fitness.add(cumulative_fitness_sum);
-        }
-        ArrayList<ArrayList<Integer>> new_population = new ArrayList<>();
-        for(int i=0; i<population.size();i++)
-        {
-            double roulette = random.nextDouble(0,1);
-            for(int j =0; j<population.size();j++)
+            // Process all adjacent vertices and flag their colors
+            // as unavailable
+            Iterator<Integer> it = adj[u].iterator() ;
+            while (it.hasNext())
             {
-                if(roulette<=cumulative_fitness.get(j))
-                {
-                    new_population.add(population.get(j));
-                    break;
-                }
+                int i = it.next();
+                if (result[i] != -1)
+                    available[result[i]] = false;
             }
 
+            // Find the first available color
+            int cr;
+            for (cr = 0; cr < V; cr++){
+                if (available[cr])
+                    break;
+            }
+
+            result[u] = cr; // Assign the found color
+
+            // Reset the values back to true for the next iteration
+            Arrays.fill(available, true);
         }
+
+        // print the result
+        for (int u = 0; u < V; u++)
+            System.out.println("Vertex " + u + " --->  Color "
+                    + result[u]);
+        int max = 0;
+        for(int i =0; i<V;i++)
+        {
+            if(result[i]>max)
+                max = result[i];
+        }
+        max+=1;
+        System.out.println("Graph is "+ max + " colorable");
+        return max;
+
+
+    }
+
+    public ArrayList<ArrayList<Integer>> tournament_selection(ArrayList<ArrayList<Integer>>population)
+    {
+        ArrayList<ArrayList<Integer>> new_population = new ArrayList<>();
+        for(int j =0; j<2;j++)
+        {
+            Collections.shuffle(population);
+            for (int i =0; i<population.size()-2;i+=2)
+            {
+                if(count_fitness(population.get(i))<count_fitness(population.get(i+1)))
+                    new_population.add(population.get(i));
+                else
+                    new_population.add(population.get(i+1));
+
+                }
+            }
         return new_population;
     }
 
 
+
+
 }
+
+
+

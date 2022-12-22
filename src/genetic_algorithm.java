@@ -16,7 +16,7 @@ public class genetic_algorithm {
         int max_num_colors = graph.getMax_am_colors();
         int number_of_colors = max_num_colors;
         boolean condition = true;
-        int iter = 3000;
+        int iter = 1000;
         while (condition && number_of_colors > 0) {
             iter_all++;
             int population_size = iter / 5;
@@ -34,8 +34,9 @@ public class genetic_algorithm {
             while (best_fitness != 0 && gen != iter) {
                 iter_all++;
                 gen += 1;
-                population = new ArrayList<>(graph.roulette_wheel_selection(population));
+                population = new ArrayList<>(graph.tournament_selection(population));
                 ArrayList<ArrayList<Integer>> new_population = new ArrayList<>();
+                population_size = population.size();
                 Collections.shuffle(population);
                 for (int i = 0; i < population_size - 1; i += 2) {
                     ArrayList<ArrayList<Integer>> children = new ArrayList<>();
@@ -70,16 +71,16 @@ public class genetic_algorithm {
                 if(local_imp_option==1) localImprovement(graph,population,best_fitness, fittest_individual);
 
                 if(local_imp_option==2) localImprovement2(population,graph,max_num_colors,V);
-                if (gen % 20 == 0)
+                if (gen % 100 == 0)
                     System.out.println("Generation: " + gen + " Best_Fitness: " + best_fitness + " Individual: " + fittest_individual.toString() + "\n Col: " + number_of_colors);
             }
             System.out.println("Using: " + number_of_colors + " colors \n\n");
-            if (best_fitness != 0) {
-                condition = false;
-                number_of_colors += 1;
-                System.out.println("Graph is " + number_of_colors + " colorable");
-            } else
+            if (best_fitness!=0) {
+                condition= false;
+                    number_of_colors =max_num_colors+1;
+                    System.out.println("Graph is " + number_of_colors + " colorable");
 
+            } else
                 number_of_colors -= 1;
 
         }
