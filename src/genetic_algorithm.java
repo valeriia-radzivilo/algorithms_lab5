@@ -16,8 +16,9 @@ public class genetic_algorithm {
         int max_num_colors = graph.getMax_am_colors();
         int number_of_colors = max_num_colors;
         boolean condition = true;
-        int iter = 300;
+        int iter = 400;
         ArrayList<Integer>found_solutions = new ArrayList<>();
+        if(local_imp_option==1) localImprovement(graph);
         while (condition && number_of_colors > 0 && number_of_colors>=graph.getMin_am_col()) {
             iter_all++;
             int population_size = iter / 5;
@@ -69,7 +70,7 @@ public class genetic_algorithm {
                         fittest_individual = new ArrayList<>(individual);
                     }
                 }
-                if(local_imp_option==1) localImprovement(graph,population,best_fitness, fittest_individual);
+
 
                 if(local_imp_option==2) localImprovement2(population,graph,max_num_colors,V);
                 if (gen % 100 == 0)
@@ -93,7 +94,7 @@ public class genetic_algorithm {
         }
         else
         {
-            System.out.println("Answer is not found");
+            System.out.println("Graph is" + max_num_colors+1+ " colorable");
             answer.add(max_num_colors+1);
         }
         return answer;
@@ -202,16 +203,10 @@ public class genetic_algorithm {
         return individual;
     }
 
-    static ArrayList<ArrayList<Integer>> localImprovement(Graph graph, ArrayList<ArrayList<Integer>> population, int best_fitness, ArrayList<Integer>best_option)
+    static void localImprovement(Graph graph)
     {
-        for(ArrayList<Integer> i : population)
-        {
-            if(graph.count_fitness(i)>best_fitness+1) {
-                int ind = population.indexOf(i);
-                population.set(ind,best_option);
-            }
-        }
-        return population;
+        int max_colors = graph.greedyColoring()+1;
+        graph.setMin_am_col(max_colors);
     }
 
 
@@ -226,7 +221,7 @@ public class genetic_algorithm {
     static void localImprovement2(ArrayList<ArrayList<Integer>> population, Graph graph, int max_col_am,int V)
     {
         ArrayList<ArrayList<Integer>> best_of_population = new ArrayList<>();
-        int amount_to_take = population.size()/10;
+        int amount_to_take = population.size()/2;
         int counter =0;
         for(ArrayList<Integer> p: population)
         {

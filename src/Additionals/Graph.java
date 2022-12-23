@@ -6,7 +6,7 @@ public class Graph {
     private int V;
     private ArrayList<Integer> adj[]; //Adjacency Lists
     int max_am_colors = 0;
-    int min_am_col = V;
+    int min_am_col = 0;
 
     public int getMax_am_colors()
     {
@@ -228,9 +228,9 @@ public class Graph {
         }
 
         // print the result
-        for (int u = 0; u < V; u++)
-            System.out.println("Vertex " + u + " --->  Color "
-                    + result[u]);
+//        for (int u = 0; u < V; u++)
+//            System.out.println("Vertex " + u + " --->  Color "
+//                    + result[u]);
         int max = 0;
         for(int i =0; i<V;i++)
         {
@@ -238,7 +238,7 @@ public class Graph {
                 max = result[i];
         }
         max+=1;
-        System.out.println("Graph is "+ max + " colorable");
+//        System.out.println("Graph is "+ max + " colorable");
         return max;
 
 

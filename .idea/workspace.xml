@@ -25,6 +25,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2ItuDIcF0YFaQXh70aINrGC0SrU" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -43,7 +46,14 @@
     &quot;last_opened_file_path&quot;: &quot;C:/Users/leraz/IdeaProjects/algorithms_lab5&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="algorithms_lab5" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main.MakeNotRandom" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="algorithms_lab5" />
       <option name="PACKAGE_NAME" value="" />
@@ -86,6 +96,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.Main.MakeNotRandomTestBig" />
         <item itemvalue="JUnit.Main.MakeNotRandomTest" />
         <item itemvalue="JUnit.Main.TestLocalImprovement2" />
@@ -111,7 +122,9 @@
       <workItem from="1671551661988" duration="3048000" />
       <workItem from="1671633192033" duration="5728000" />
       <workItem from="1671661670341" duration="13664000" />
-      <workItem from="1671710832981" duration="6816000" />
+      <workItem from="1671710832981" duration="6829000" />
+      <workItem from="1671755664695" duration="1356000" />
+      <workItem from="1671792331780" duration="1863000" />
     </task>
     <task id="LOCAL-00001" summary="try">
       <created>1671454035189</created>
@@ -148,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671715122765</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added tournament_selection">
+      <created>1671717716396</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1671717716396</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,12 +209,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>47</line>
+          <line>46</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/genetic_algorithm.java</url>
-          <line>39</line>
+          <line>40</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
